@@ -1,4 +1,4 @@
-grails-ducksboard-push-api
+grails-ducksboard-api
 ==========================
 
-Grails plugin to integrate with the ducksboard.com Push API
+Grails plugin to use the PUSH/PULL Ducksboard.com API

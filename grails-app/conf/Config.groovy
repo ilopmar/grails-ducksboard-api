@@ -22,3 +22,14 @@ log4j = {
 
     warn   'org.mortbay.log'
 }
+
+ducksboard {
+    user = "YOUR_API_KEY"
+    password = "x"
+    pushApi {
+        url = "https://push.ducksboard.com/v"
+    }
+    pullApi {
+        url = "https://pull.ducksboard.com/values"
+    }
+}

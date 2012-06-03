@@ -13,9 +13,8 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
-        
-        //mavenRepo "http://repo.grails.org/grails/plugins"
-        //mavenRepo "http://repo.grails.org/grails/plugins/org/grails/plugins"
+
+        mavenRepo 'https://oss.sonatype.org/content/groups/public'
         grailsRepo "http://grails.org/plugins"
 
         // uncomment the below to enable remote dependency resolution
@@ -31,7 +30,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
         // runtime 'mysql:mysql-connector-java:5.1.13'
-        compile ":wslite:0.7.0"
         
+        runtime 'com.github.groovy-wslite:groovy-wslite:0.7.0'
     }
 }
