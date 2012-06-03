@@ -44,7 +44,12 @@ class DucksboardService {
      */
     public Boolean incrementIntegerValue(String widgetId, Integer increment = 1) {
         def actualValue = pullIntegerValue(widgetId)
-        return pushIntegerValue(widgetId, actualValue + increment) 
+        
+        if (actualValue) {
+            return pushIntegerValue(widgetId, actualValue + increment)
+        } else {
+            return false 
+        }
     }
     
 }

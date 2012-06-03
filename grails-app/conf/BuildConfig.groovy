@@ -32,5 +32,6 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.13'
         
         runtime 'com.github.groovy-wslite:groovy-wslite:0.7.0'
+        runtime 'log4j:log4j:1.2.16'
     }
 }
