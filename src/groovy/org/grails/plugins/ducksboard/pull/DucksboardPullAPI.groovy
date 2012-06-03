@@ -2,10 +2,12 @@ package org.grails.plugins.ducksboard.pull
 
 import org.grails.plugins.ducksboard.common.ConnectionClient
 import wslite.rest.*
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 
 class DucksboardPullAPI {
-
-    static transactional = false
+    
+    def log = Logger.getLogger(getClass())
 
     /**
      * Get the last integer value of the widget

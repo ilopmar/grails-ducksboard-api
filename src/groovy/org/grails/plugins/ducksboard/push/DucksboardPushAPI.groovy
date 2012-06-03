@@ -2,10 +2,12 @@ package org.grails.plugins.ducksboard.push
 
 import org.grails.plugins.ducksboard.common.ConnectionClient
 import wslite.rest.*
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 
 class DucksboardPushAPI {
-
-    static transactional = false
+    
+    def log = Logger.getLogger(getClass())
 
     /**
      * Push the new integer value to the widget
