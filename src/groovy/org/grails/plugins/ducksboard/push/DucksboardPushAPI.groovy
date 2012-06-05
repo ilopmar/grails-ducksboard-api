@@ -33,4 +33,23 @@ class DucksboardPushAPI {
         
         return true
     }
+    
+    public boolean pushTimestampValues(String widgetId, String json) {
+        
+        RESTClient client = ConnectionClient.getPushClient()
+
+        try {        
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        } catch (Exception e) {
+            log.error "There was an error with ducksboard request"
+            log.error e
+            return false
+        }
+        
+        return true
+    }
 }
+
+
