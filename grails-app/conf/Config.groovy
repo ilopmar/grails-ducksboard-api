@@ -21,15 +21,7 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
-}
 
-ducksboard {
-    user = "YOUR_API_KEY"
-    password = "x"
-    pushApi {
-        url = "https://push.ducksboard.com/v"
-    }
-    pullApi {
-        url = "https://pull.ducksboard.com/values"
-    }
+    debug  'grails',
+           'org.grails.plugins.ducksboard'
 }
