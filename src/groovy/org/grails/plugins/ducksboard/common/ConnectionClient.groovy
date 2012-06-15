@@ -16,9 +16,9 @@ class ConnectionClient {
      */
     public static RESTClient getPushClient() {
 
-        def url = CH.config.ducksboard.pushApi.url
+        def url = CH.config.ducksboard.pushApi.url ?: "https://push.ducksboard.com/v"
         def user = CH.config.ducksboard.user
-        def password = CH.config.ducksboard.password
+        def password = CH.config.ducksboard.password ?: "x"
 
         def client = new RESTClient(url)
         client.authorization = new HTTPBasicAuthorization(user, password)
@@ -33,11 +33,11 @@ class ConnectionClient {
      */
     public static RESTClient getPullClient() {
 
-        def url = CH.config.ducksboard.pullApi.url
+        def url = CH.config.ducksboard.pullApi.url ?: "https://pull.ducksboard.com/values"
         def user = CH.config.ducksboard.user
-        def password = CH.config.ducksboard.password
+        def password = CH.config.ducksboard.password ?: "x"
 
-        def client = new RESTClient("https://pull.ducksboard.com/values")
+        def client = new RESTClient(url)
         client.authorization = new HTTPBasicAuthorization(user, password)
 
         return client
