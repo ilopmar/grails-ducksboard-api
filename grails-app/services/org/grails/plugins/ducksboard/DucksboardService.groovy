@@ -91,44 +91,4 @@ class DucksboardService {
         def json = (list as JSON).toString()
         return ducksboardPushAPI.pushTimestampValues(widgetId, json)
     }
-    
-
-
-
-
-    public randomList() {
-
-        Calendar cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR, 0)
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-
-        def dos = cal.clone()
-        def uno
-        use (TimeCategory) {
-            //dos = uno.time - 1.month
-            uno = dos.time - 1.month
-
-        }
-
-        Date a1 = uno
-        Date b1 = dos.time
-
-        def random = new Random()
-
-        def list = []
-        for(date in b1..a1) {
-            def map = [:]
-            map.timestamp = date.time/1000
-            map.value = random.nextInt(50)+20
-
-            list << map
-        }
-
-        return list
-
-    }
-
 }
