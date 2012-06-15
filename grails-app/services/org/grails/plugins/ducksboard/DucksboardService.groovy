@@ -11,20 +11,9 @@ class DucksboardService {
     static transactional = false
 
     /**
-     * Get the last integer value of a widget
-     * 
-     * @param widgetId The if of the widget
-     * 
-     * @return the value of the widget
-     */
-    public Integer pullIntegerValue(String widgetId) {
-        def ducksboardPullAPI = new DucksboardPullAPI()
-
-        return ducksboardPullAPI.pullIntegerValue(widgetId)
-    }
-
-    /**
-     * Update the widget with the new value
+     * Update the widget with the new integer value.
+     * This method can be used to update the following widgets: counters, bars, boxes and pins
+     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
      * @param widgetId The id of the widget
      * @param value The new value
@@ -36,9 +25,41 @@ class DucksboardService {
 
         return ducksboardPushAPI.pushIntegerValue(widgetId, value)
     }
+    
+    /**
+     * Get the last integer value of a widget.
+     * This method can be used to get the value of the following widgets: counters, bars, boxes and pins
+     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
+     * 
+     * @param widgetId The if of the widget
+     * 
+     * @return the value of the widget
+     */
+    public Integer pullIntegerValue(String widgetId) {
+        def ducksboardPullAPI = new DucksboardPullAPI()
+
+        return ducksboardPullAPI.pullIntegerValue(widgetId)
+    }
+    
+    /**
+     * Update the widget with the new double value. It is used for gauge widgets.
+     * http://dev.ducksboard.com/apidoc/slot-kinds/#gauges
+     * 
+     * @param widgetId The widget id
+     * @param value The new value
+     * 
+     * @return true if done, false otherwise
+     */
+    public Boolean pushDoubleValue(String widgetId, Double value) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+        
+        return ducksboardPushAPI.pushDoubleValue(widgetId, value)
+    }
 
     /**
-     * Increment/Decrement the value of a widget
+     * Increment/Decrement the value of a widget with a new integer value.
+     * This method can be used to update the following widgets: counters, bars, boxes and pins
+     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
      * @param widgetId The id of the widget
      * @param increment OPTIONAL The value to add or substract
@@ -70,6 +91,8 @@ class DucksboardService {
         def json = (list as JSON).toString()
         return ducksboardPushAPI.pushTimestampValues(widgetId, json)
     }
+    
+
 
 
 

@@ -34,6 +34,39 @@ class DucksboardPushAPI {
         return true
     }
     
+    /**
+     * Push the new double value to the widget.
+     * 
+     * @param widgetId The id of the widget
+     * @param value The new value
+     * 
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushDoubleValue(String widgetId, Double value) {
+        
+        RESTClient client = ConnectionClient.getPushClient()
+
+        try {        
+            def response = client.post(path:"/${widgetId}") {
+                json value:value
+            }
+        } catch (Exception e) {
+            log.error "There was an error with ducksboard request"
+            log.error e
+            return false
+        }
+        
+        return true
+    }
+    
+    /**
+     * Push a timestamp values to the widget
+     * 
+     * @param widgetId The widget id
+     * @param json The json with the following format: [{"timestamp":1337724000, "value": 1}, {"timestamp":1337810400, "value": 5}]
+     * 
+     * @return true if done or false if something was wrong
+     */
     public boolean pushTimestampValues(String widgetId, String json) {
         
         RESTClient client = ConnectionClient.getPushClient()
@@ -50,6 +83,8 @@ class DucksboardPushAPI {
         
         return true
     }
+    
+
 }
 
 
