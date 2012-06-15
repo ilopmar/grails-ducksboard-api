@@ -17,19 +17,32 @@ class DucksboardPullAPI {
      * @return the last value of the widget or null if something was wrong
      */
     public Integer pullIntegerValue(String widgetId) {
+        withClient { client ->
+            def response = client.get(path:"/${widgetId}/last", query:[count:1])
+                text json
+            }
         
-        RESTClient client = ConnectionClient.getPullClient()
-
-        def response
+            def value = response.json.data[0].value
+            return value
+        }
+    }
+    
+    /**
+     * Create the PullClient and call to Ducksboard API with the closure passed as param  
+     * 
+     * @param cl The closure to execute
+     * 
+     * @return true if done or false if something was wrong
+     */
+    private withClient(Closure cl) {
         try {
-            response = client.get(path:"/${widgetId}/last", query:[count:1])
+            RESTClient client = ConnectionClient.getPullClient()
+            cl(client)
         } catch (Exception e) {
             log.error "There was an error with ducksboard request"
             log.error e
-            return null
+            return false
         }
-
-        def value = response.json.data[0].value
-        return value
+        return true
     }
 }

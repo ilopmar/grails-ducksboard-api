@@ -18,20 +18,11 @@ class DucksboardPushAPI {
      * @return true if done or false if something was wrong
      */
     public boolean pushIntegerValue(String widgetId, Integer value) {
-        
-        RESTClient client = ConnectionClient.getPushClient()
-
-        try {        
+        withClient { client ->
             def response = client.post(path:"/${widgetId}") {
                 json value:value
             }
-        } catch (Exception e) {
-            log.error "There was an error with ducksboard request"
-            log.error e
-            return false
         }
-        
-        return true
     }
     
     /**
@@ -43,20 +34,11 @@ class DucksboardPushAPI {
      * @return true if done or false if something was wrong
      */
     public boolean pushDoubleValue(String widgetId, Double value) {
-        
-        RESTClient client = ConnectionClient.getPushClient()
-
-        try {        
+        withClient { client ->
             def response = client.post(path:"/${widgetId}") {
                 json value:value
             }
-        } catch (Exception e) {
-            log.error "There was an error with ducksboard request"
-            log.error e
-            return false
         }
-        
-        return true
     }
     
     /**
@@ -68,23 +50,29 @@ class DucksboardPushAPI {
      * @return true if done or false if something was wrong
      */
     public boolean pushTimestampValues(String widgetId, String json) {
-        
-        RESTClient client = ConnectionClient.getPushClient()
-
-        try {        
+        withClient { client ->
             def response = client.post(path:"/${widgetId}") {
                 text json
             }
+        }
+    }
+    
+    /**
+     * Create the PushClient and call to Ducksboard API with the closure passed as param  
+     * 
+     * @param cl The closure to execute
+     * 
+     * @return true if done or false if something was wrong
+     */
+    private withClient(Closure cl) {
+        try {
+            RESTClient client = ConnectionClient.getPushClient()
+            cl(client)
         } catch (Exception e) {
             log.error "There was an error with ducksboard request"
             log.error e
             return false
         }
-        
         return true
     }
-    
-
 }
-
-
