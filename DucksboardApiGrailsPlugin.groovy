@@ -7,15 +7,17 @@ class DucksboardApiGrailsPlugin {
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp",
+            "grails-app/domain/**",
+            "grails-app/controllers/**",
+            "grails-app/taglib/**"
     ]
 
-    // TODO Fill in these fields
     def author = "Iván López"
     def authorEmail = "lopez.ivan@gmail.com"
-    def title = "Plugin summary/headline"
+    def title = "Ducksboard API"
     def description = '''\\
-Brief description of the plugin.
+The Ducksboard API plugin provides integration with the ducksboard.com pull and push API.
 '''
 
     // URL to the plugin's documentation
@@ -26,7 +28,11 @@ Brief description of the plugin.
     }
 
     def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
+        def ducksboardApiConfig = application.config.ducksboard
+
+        if (!ducksboardApiConfig.user) {
+            log.error "ERROR: Ducksboard API user not found. The property ducksboard.user must be defined in Config.groovy"
+        }
     }
 
     def doWithDynamicMethods = { ctx ->
