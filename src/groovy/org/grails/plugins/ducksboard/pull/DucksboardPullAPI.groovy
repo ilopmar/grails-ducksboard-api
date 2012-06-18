@@ -17,15 +17,16 @@ class DucksboardPullAPI {
      * @return the last value of the widget or null if something was wrong
      */
     public Integer pullIntegerValue(String widgetId) {
+        def response
         withClient { client ->
-            def response = client.get(path:"/${widgetId}/last", query:[count:1])
-                text json
-            }
-        
-            def value = response.json.data[0].value
-            return value
+            response = client.get(path:"/${widgetId}/last", query:[count:1])
         }
+
+        def value = response.json.data[0].value
+        return value
+        
     }
+
     
     /**
      * Create the PullClient and call to Ducksboard API with the closure passed as param  
