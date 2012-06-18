@@ -23,7 +23,7 @@ The Ducksboard API plugin provides integration with the ducksboard.com pull and 
     def documentation = "https://github.com/lmivan/grails-ducksboard-api/blob/master/README.md"
     
     // License: one of 'APACHE', 'GPL2', 'GPL3'
-    def license = "GPL3"
+    def license = "APACHE"
     
     // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/lmivan/grails-ducksboard-api" ]
