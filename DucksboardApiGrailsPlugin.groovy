@@ -16,12 +16,18 @@ class DucksboardApiGrailsPlugin {
     def author = "Iván López"
     def authorEmail = "lopez.ivan@gmail.com"
     def title = "Ducksboard API"
-    def description = '''\\
-The Ducksboard API plugin provides integration with the ducksboard.com pull and push API.
+    def description = '''\
+The Ducksboard API plugin provides integration with the ducksboard.com pull and push API. Ducksboard is an online dashboard to display all your metrics in real time.
 '''
-
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/ducksboard-api"
+    def documentation = "https://github.com/lmivan/grails-ducksboard-api/blob/master/README.md"
+    
+    // License: one of 'APACHE', 'GPL2', 'GPL3'
+    def license = "GPL3"
+    
+    // Online location of the plugin's browseable source code.
+    def scm = [ url: "https://github.com/lmivan/grails-ducksboard-api" ]
+    
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before 
