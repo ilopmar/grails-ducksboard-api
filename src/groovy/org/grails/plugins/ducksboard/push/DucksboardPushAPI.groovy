@@ -10,14 +10,14 @@ class DucksboardPushAPI {
     def log = Logger.getLogger(getClass())
 
     /**
-     * Push the new integer value to the widget
+     * Push the new long value to the widget
      * 
      * @param widgetId The id of the widget
      * @param value The new value
      * 
      * @return true if done or false if something was wrong
      */
-    public boolean pushIntegerValue(String widgetId, Integer value) {
+    public boolean pushLongValue(String widgetId, Long value) {
         withClient { client ->
             def response = client.post(path:"/${widgetId}") {
                 json value:value

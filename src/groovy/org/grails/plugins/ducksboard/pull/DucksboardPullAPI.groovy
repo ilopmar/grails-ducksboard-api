@@ -10,13 +10,13 @@ class DucksboardPullAPI {
     def log = Logger.getLogger(getClass())
 
     /**
-     * Get the last integer value of the widget
+     * Get the last long value of the widget
      * 
      * @param widgetId The id of the widget to get the value
      * 
      * @return the last value of the widget or null if something was wrong
      */
-    public Integer pullIntegerValue(String widgetId) {
+    public Integer pullLongValue(String widgetId) {
         def response
         withClient { client ->
             response = client.get(path:"/${widgetId}/last", query:[count:1])

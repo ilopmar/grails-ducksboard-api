@@ -11,7 +11,7 @@ class DucksboardService {
     static transactional = false
 
     /**
-     * Update the widget with the new integer value.
+     * Update the widget with the new long value.
      * This method can be used to update the following widgets: counters, bars, boxes and pins
      * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
@@ -20,14 +20,14 @@ class DucksboardService {
      * 
      * @return true if done, false otherwise
      */
-    public Boolean pushIntegerValue(String widgetId, Integer value) {
+    public Boolean pushLongValue(String widgetId, Long value) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        return ducksboardPushAPI.pushIntegerValue(widgetId, value)
+        return ducksboardPushAPI.pushLongValue(widgetId, value)
     }
     
     /**
-     * Get the last integer value of a widget.
+     * Get the last long value of a widget.
      * This method can be used to get the value of the following widgets: counters, bars, boxes and pins
      * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
@@ -35,10 +35,10 @@ class DucksboardService {
      * 
      * @return the value of the widget
      */
-    public Integer pullIntegerValue(String widgetId) {
+    public Integer pullLongValue(String widgetId) {
         def ducksboardPullAPI = new DucksboardPullAPI()
 
-        return ducksboardPullAPI.pullIntegerValue(widgetId)
+        return ducksboardPullAPI.pullLongValue(widgetId)
     }
     
     /**
@@ -57,7 +57,7 @@ class DucksboardService {
     }
 
     /**
-     * Increment/Decrement the value of a widget with a new integer value.
+     * Increment/Decrement the value of a widget with a new long value.
      * This method can be used to update the following widgets: counters, bars, boxes and pins
      * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
@@ -66,11 +66,11 @@ class DucksboardService {
      * 
      * @return true if done, false otherwise
      */
-    public Boolean incrementIntegerValue(String widgetId, Integer increment = 1) {
-        def actualValue = pullIntegerValue(widgetId)
+    public Boolean incrementLongValue(String widgetId, Integer increment = 1) {
+        def actualValue = pullLongValue(widgetId)
 
         if (actualValue) {
-            return pushIntegerValue(widgetId, actualValue + increment)
+            return pushLongValue(widgetId, actualValue + increment)
         } else {
             return false
         }
