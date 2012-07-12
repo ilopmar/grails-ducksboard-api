@@ -82,7 +82,7 @@ class DucksboardService {
      * 
      * @param widgetId The id of the widget
      * @param list The list to update the widget. Every element of this list must be a map with the keys
-     *  timestamp and value
+     *  "timestamp" and "value"
      * 
      * @return true if done, false otherwise
      */
@@ -98,8 +98,8 @@ class DucksboardService {
      * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards 
      * 
      * @param widgetId The id of the widget
-     * @param list The list to update the widget. Every elemento of this list must be a map with the keys
-     *  name and values (a list of values)
+     * @param list The list to update the widget. Every element of this list must be a map with the keys
+     *  "name" and "values", which contains a list of values
      * 
      * @return true if done, false otherwise
      */
@@ -118,8 +118,8 @@ class DucksboardService {
      * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#timelines 
      * 
      * @param widgetId The id of the widget
-     * @param map The map to update the widget. The map must contain the keys timestamp and value. The value
-     *  must be another map with the title, image and content keys
+     * @param map The map to update the widget. The map must contain the keys "timestamp" and "value". The "value"
+     *  must be another map with the "title", "image" and "content" keys. Optionally the key "link" can be included 
      * 
      * @return true if done, false otherwise
      */

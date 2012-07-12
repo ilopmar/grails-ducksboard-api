@@ -58,7 +58,7 @@ The following methods are implemented:
 * `incrementLongValue(String widgetId, Long increment = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins.
 * `pushTimestampValues(String widgetId, List list)`: This method is used to push new values to a absolute or relative graph. The `list` param has to be a list of maps with the keys `timestamp` and `value`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs
 * `pushLeaderboardValues(String widgetId, List list)`: This method is used to push new values to a leaderboard widget. The `list` param has to be a list of maps with the keys `name` and `values`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards
-* `pushTimelineValues(String widgetId, Map map)`: This method is used to push a new value to a timeline widget. The `map` param constains the following params `timeline` and `value` (with `title`, `image` and `content`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#timelines  
+* `pushTimelineValues(String widgetId, Map map)`: This method is used to push a new value to a timeline widget. The `map` param constains the following params `timeline` and `value` (with `title`, `image`, `content` and optionally `link`). You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#timelines  
 
 
 Author
