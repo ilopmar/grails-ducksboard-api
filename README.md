@@ -79,5 +79,6 @@ Collaborations are appreciated :-)
 Change Log
 ----------  
 
+* v0.2.1 - 12/Jul/2012 - Minor changes
 * v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget and to push Images 
 * v0.1 - 16/Jun/2012 - First version
