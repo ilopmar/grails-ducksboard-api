@@ -69,6 +69,5 @@ Collaborations are appreciated :-)
 Change Log
 ----------  
 
-v0.2 - 12/Jul/2012 - Changed Integer values to Long.
-                     Added method to push values to a Leaderboard widget 
-v0.1 - 16/Jun/2012 - First version
+* v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added method to push values to a Leaderboard widget 
+* v0.1 - 16/Jun/2012 - First version
