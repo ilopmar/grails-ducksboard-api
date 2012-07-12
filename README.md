@@ -9,7 +9,7 @@ After installing the plugin you only have to inject the `ducksboardService` into
 
 For the moment, the methods implemented are only for the custom widgets. You can get a list of them at http://dev.ducksboard.com/apidoc/slot-kinds/
 
-There is a sample project with examples of all the widgets at [https://github.com/lmivan/grails-ducksboard-api-demo](https://github.com/lmivan/grails-ducksboard-api-demo). This sample project includes a public dashboard and a online grails project to interact with the dashboard.
+There is a sample project with examples of all the widgets at [https://github.com/lmivan/grails-ducksboard-api-demo](https://github.com/lmivan/grails-ducksboard-api-demo). This sample project includes a [public dashboard](https://public.ducksboard.com/UcD_CtknoMaEDbIJo8Eo/) and a online grails project to interact with the dashboard.
 
 Custom widgets
 --------------
