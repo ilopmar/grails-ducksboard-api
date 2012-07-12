@@ -27,6 +27,8 @@ Custom widgets
 
 ![Leaderboards](http://dev.ducksboard.com/apidoc/_images/leaderboard.png)
 
+![Timeline](http://dev.ducksboard.com/apidoc/_images/timeline.png)
+
 Configuration
 -------------
 
@@ -55,7 +57,8 @@ The following methods are implemented:
 * `pushDoubleValue(String widgetId, Double value)`: This method is used to push a new double value to update the gauge widgets.
 * `incrementLongValue(String widgetId, Long increment = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins.
 * `pushTimestampValues(String widgetId, List list)`: This method is used to push new values to a absolute or relative graph. The `list` param has to be a list of maps with the keys `timestamp` and `value`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs
-* `pushLeaderboardValues(String widgetId, List list)`: This method is used to push new values to a leaderboard widget. The `list` param has to be a list of maps with the keys `name` and `values`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards  
+* `pushLeaderboardValues(String widgetId, List list)`: This method is used to push new values to a leaderboard widget. The `list` param has to be a list of maps with the keys `name` and `values`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards
+* `pushTimelineValues(String widgetId, Map map)`: This method is used to push a new value to a timeline widget. The `map` param constains the following params `timeline` and `value` (with `title`, `image` and `content`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#timelines  
 
 
 Author
@@ -69,5 +72,5 @@ Collaborations are appreciated :-)
 Change Log
 ----------  
 
-* v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added method to push values to a Leaderboard widget 
+* v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget 
 * v0.1 - 16/Jun/2012 - First version
