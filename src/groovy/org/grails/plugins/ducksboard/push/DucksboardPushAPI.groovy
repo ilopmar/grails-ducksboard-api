@@ -42,7 +42,7 @@ class DucksboardPushAPI {
     }
     
     /**
-     * Push a timestamp values to the widget
+     * Push timestamp values to the widget
      * 
      * @param widgetId The widget id
      * @param json The json with the following format: [{"timestamp":1337724000, "value": 1}, {"timestamp":1337810400, "value": 5}]
@@ -50,6 +50,23 @@ class DucksboardPushAPI {
      * @return true if done or false if something was wrong
      */
     public boolean pushTimestampValues(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+    
+    /**
+     * Push leaderboard values to the widget
+     * 
+     * @param widgetId The widget id
+     * @param json The json with the following format: 
+     *      {"value":{"board":[{"name":"Iván","values":[10,4]},{"name":"Pepe","values":[8,1]}]}}
+     * 
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushLeaderboardValues(String widgetId, String json) {
         withClient { client ->
             def response = client.post(path:"/${widgetId}") {
                 text json

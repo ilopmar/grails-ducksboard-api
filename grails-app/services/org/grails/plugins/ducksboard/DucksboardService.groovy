@@ -91,4 +91,23 @@ class DucksboardService {
         def json = (list as JSON).toString()
         return ducksboardPushAPI.pushTimestampValues(widgetId, json)
     }
+    
+    /**
+     * Update a leaderboard widget with the new ranking
+     * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards 
+     * 
+     * @param widgetId The id of the widget
+     * @param list The list to update the widget
+     * 
+     * @return true if done, false otherwise
+     */
+    public Boolean pushLeaderboardValues(String widgetId, List list) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        def map = [:]
+        map.value = [board:list]
+        def json = (map as JSON).toString()
+        
+        return ducksboardPushAPI.pushLeaderboardValues(widgetId, json)
+    }
 }
