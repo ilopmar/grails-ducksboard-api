@@ -149,4 +149,24 @@ class DucksboardService {
         def json = (map as JSON).toString()
         return ducksboardPushAPI.pushImage(widgetId, json)
     }
+    
+    /**
+     * Push a new image to an image widget without additional info (only the image)
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#images
+     * 
+     * @param widgetId The id of the widget 
+     * @param file The file object pointing to the image
+     * 
+     * @return true if done, false otherwise
+     */
+    public Boolean pushImage(String widgetId, File file) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+        
+        def map = [:]
+        map.timestamp = new Date().time/1000
+        map.value = [source:"data:image/png;base64," + file.bytes.encodeAsBase64()]
+
+        def json = (map as JSON).toString()
+        return ducksboardPushAPI.pushImage(widgetId, json)
+    }
 }
