@@ -110,4 +110,20 @@ class DucksboardService {
         
         return ducksboardPushAPI.pushLeaderboardValues(widgetId, json)
     }
+    
+    /**
+     * Inserts a timeline entry in a timeline widget 
+     * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#timelines 
+     * 
+     * @param widgetId The id of the widget
+     * @param map The map to update the widget
+     * 
+     * @return true if done, false otherwise
+     */
+    public Boolean pushTimelineValues(String widgetId, Map map) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        def json = (map as JSON).toString()
+        return ducksboardPushAPI.pushTimelineValues(widgetId, json)
+    }
 }

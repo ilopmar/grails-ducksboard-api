@@ -75,6 +75,28 @@ class DucksboardPushAPI {
     }
     
     /**
+     * Push timeline value to the widget
+     * 
+     * @param widgetId The widget id
+     * @param json The json with the following format: 
+     *      {"timestamp":1312084128.67,
+     *          "value":{
+     *              "title":"The title",
+     *              "image":"http://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png",
+     *              "content":"This is the content of the entry"}
+     *      }
+     * 
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushTimelineValues(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+    
+    /**
      * Create the PushClient and call to Ducksboard API with the closure passed as param  
      * 
      * @param cl The closure to execute
