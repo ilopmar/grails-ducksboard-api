@@ -1,5 +1,5 @@
 grails-ducksboard-api
-==========================
+=====================
 
 This plugin allows to use the push/pull [Ducksboard.com](http://www.ducksboard.com) API easily in your grails application.
 
@@ -25,6 +25,8 @@ Custom widgets
 
 ![Relative graph](http://dev.ducksboard.com/apidoc/_images/relative_graph3.png)
 
+![Leaderboards](http://dev.ducksboard.com/apidoc/_images/leaderboard.png)
+
 Configuration
 -------------
 
@@ -42,17 +44,18 @@ Ducksboard pull api methods
 ---------------------------
 
 Currently only one pull method is implemented:
-* `pullIntegerValue(widgetId)`: This method is used to get the last value of the following widgets: counters, bars, boxes and pins.
+* `pullLongValue(widgetId)`: This method is used to get the last value of the following widgets: counters, bars, boxes and pins.
 
 
 Ducksboard push api methods
 ---------------------------
 
 The following methods are implemented:
-* `pushIntegerValue(String widgetId, Integer value)`: This method is used to push a new integer value to update the following widgets: counters, bars, boxes and pins.
+* `pushLongValue(String widgetId, Long value)`: This method is used to push a new long value to update the following widgets: counters, bars, boxes and pins.
 * `pushDoubleValue(String widgetId, Double value)`: This method is used to push a new double value to update the gauge widgets.
-* `incrementIntegerValue(String widgetId, Integer increment = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins.
-* `pushTimestampValues(String widgetId, List list)`: This method is used to push new values to a absolute or relative graph. The `list` param has to be a list of maps with the keys `timestamp` and `value`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs  
+* `incrementLongValue(String widgetId, Long increment = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins.
+* `pushTimestampValues(String widgetId, List list)`: This method is used to push new values to a absolute or relative graph. The `list` param has to be a list of maps with the keys `timestamp` and `value`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs
+* `pushLeaderboardValues(String widgetId, List list)`: This method is used to push new values to a leaderboard widget. The `list` param has to be a list of maps with the keys `name` and `values`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards  
 
 
 Author
@@ -66,4 +69,6 @@ Collaborations are appreciated :-)
 Change Log
 ----------  
 
+v0.2 - 12/Jul/2012 - Changed Integer values to Long.
+                     Added method to push values to a Leaderboard widget 
 v0.1 - 16/Jun/2012 - First version
