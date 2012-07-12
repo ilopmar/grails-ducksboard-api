@@ -13,7 +13,7 @@ class DucksboardService {
     /**
      * Update the widget with the new long value.
      * This method can be used to update the following widgets: counters, bars, boxes and pins
-     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
      * @param widgetId The id of the widget
      * @param value The new value
@@ -29,7 +29,7 @@ class DucksboardService {
     /**
      * Get the last long value of a widget.
      * This method can be used to get the value of the following widgets: counters, bars, boxes and pins
-     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
      * @param widgetId The if of the widget
      * 
@@ -43,7 +43,7 @@ class DucksboardService {
     
     /**
      * Update the widget with the new double value. It is used for gauge widgets.
-     * http://dev.ducksboard.com/apidoc/slot-kinds/#gauges
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#gauges
      * 
      * @param widgetId The widget id
      * @param value The new value
@@ -59,7 +59,7 @@ class DucksboardService {
     /**
      * Increment/Decrement the value of a widget with a new long value.
      * This method can be used to update the following widgets: counters, bars, boxes and pins
-     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
      * 
      * @param widgetId The id of the widget
      * @param increment OPTIONAL The value to add or substract
@@ -78,7 +78,7 @@ class DucksboardService {
 
     /**
      * Update a timestamp widget like an absolute relative graph
-     * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs 
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs 
      * 
      * @param widgetId The id of the widget
      * @param list The list to update the widget. Every element of this list must be a map with the keys
@@ -95,7 +95,7 @@ class DucksboardService {
     
     /**
      * Update a leaderboard widget with the new ranking
-     * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards 
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards 
      * 
      * @param widgetId The id of the widget
      * @param list The list to update the widget. Every element of this list must be a map with the keys
@@ -115,7 +115,7 @@ class DucksboardService {
     
     /**
      * Inserts a timeline entry in a timeline widget 
-     * E.g: http://dev.ducksboard.com/apidoc/slot-kinds/#timelines 
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#timelines 
      * 
      * @param widgetId The id of the widget
      * @param map The map to update the widget. The map must contain the keys "timestamp" and "value". The "value"
@@ -128,5 +128,25 @@ class DucksboardService {
 
         def json = (map as JSON).toString()
         return ducksboardPushAPI.pushTimelineValues(widgetId, json)
+    }
+    
+    /**
+     * Push a new image to an image widget.
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#images 
+     * 
+     * @param widgetId The id of the widget
+     * @param map The map to update the widget. The map must contain the keys "timestamp" and "value". The "value"
+     *  must be another map with the "source" and "caption" keys. 
+     *  The "source" must start with "data:image/png;base64," followed with the Base64 encoded image. You can convert an image with:
+     *    def f = new File('/path/to/image.png')
+     *    f.bytes.encodeAsBase64() 
+     * 
+     * @return true if done, false otherwise
+     */
+    public Boolean pushImage(String widgetId, Map map) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        def json = (map as JSON).toString()
+        return ducksboardPushAPI.pushImage(widgetId, json)
     }
 }

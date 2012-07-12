@@ -80,15 +80,38 @@ class DucksboardPushAPI {
      * @param widgetId The widget id
      * @param json The json with the following format: 
      *      {"timestamp":1312084128.67,
-     *          "value":{
-     *              "title":"The title",
-     *              "image":"http://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png",
-     *              "content":"This is the content of the entry"}
+     *       "value":{
+     *          "title":"The title",
+     *          "image":"http://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png",
+     *          "content":"This is the content of the entry"
+     *        }
      *      }
      * 
      * @return true if done or false if something was wrong
      */
     public boolean pushTimelineValues(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+    
+    /**
+     * Push and image to the widget
+     * 
+     * @param widgetId The widget id
+     * @param json The json with the following format:
+     *  {"timestamp":1342088037,
+     *   "value":{
+     *      "source":"data:image/png;base64,iVBORw0KG..............rkJggg==",
+     *      "caption":"The caption"
+     *    }
+     *  }
+     * 
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushImage(String widgetId, String json) {
         withClient { client ->
             def response = client.post(path:"/${widgetId}") {
                 text json
