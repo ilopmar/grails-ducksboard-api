@@ -59,12 +59,13 @@ Ducksboard push api methods
 The following methods are implemented:
 * `pushLongValue(String widgetId, Long value)`: This method is used to push a new long value to update the following widgets: counters, bars, boxes and pins.
 * `pushDoubleValue(String widgetId, Double value)`: This method is used to push a new double value to update the gauge widgets.
-* `incrementLongValue(String widgetId, Long increment = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins.
 * `pushTimestampValues(String widgetId, List list)`: This method is used to push new values to a absolute or relative graph. The `list` param has to be a list of maps with the keys `timestamp` and `value`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs
 * `pushLeaderboardValues(String widgetId, List list)`: This method is used to push new values to a leaderboard widget. The `list` param has to be a list of maps with the keys `name` and `values`. You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards
 * `pushTimelineValues(String widgetId, Map map)`: This method is used to push a new value to a timeline widget. The `map` param contains the following params `timeline` and `value` (with `title`, `image`, `content` and optionally `link`). You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#timelines
 * `pushImage(String widgetId, Map map)`: This method is used to push an image to an image widget. The `map` param contains the following params `timeline` and `value` (with `source`, base64 encoded image, and `caption`). You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#images
 * `pushImage(String widgetId, File file)`: This method is used to push an image to an image widget. The `file` param points to the image we want to push. With this method it is not possible to and the caption to the picture.
+* `incrementLongValue(String widgetId, Long increment = 1)`: This method is used to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. This method is deprecated. Please use `pushLongDelta`.
+* `pushLongDelta(String widgetId, Long delta = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. It uses the new ducksboard delta feature, so only one call is made to the server.
   
 
 
@@ -79,6 +80,7 @@ Collaborations are appreciated :-)
 Change Log
 ----------  
 
+* v0.2.2 - 15/Aug/2012 - Added new method to support delta updates and deprecated the old method
 * v0.2.1 - 12/Jul/2012 - Minor changes
 * v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget and to push Images 
 * v0.1 - 16/Jun/2012 - First version

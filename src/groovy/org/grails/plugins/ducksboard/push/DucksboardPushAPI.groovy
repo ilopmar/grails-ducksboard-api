@@ -24,6 +24,22 @@ class DucksboardPushAPI {
             }
         }
     }
+	
+	/**
+	 * Push the new long delta to the widget. This is used to update the value of the widget adding or subtracting an increment 
+	 *
+	 * @param widgetId The id of the widget
+	 * @param delta The value to add or subtract. It can be positive or negative
+	 *
+	 * @return true if done or false if something was wrong
+	 */
+	public boolean pushLongDelta(String widgetId, Long delta) {
+		withClient { client ->
+			def response = client.post(path:"/${widgetId}") {
+				json delta:delta
+			}
+		}
+	}
     
     /**
      * Push the new double value to the widget.

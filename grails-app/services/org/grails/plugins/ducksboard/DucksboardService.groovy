@@ -57,16 +57,15 @@ class DucksboardService {
     }
 
     /**
-     * Increment/Decrement the value of a widget with a new long value.
-     * This method can be used to update the following widgets: counters, bars, boxes and pins
-     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
+     * This method is deprecated. Use the new method pushLongDelta method
      * 
      * @param widgetId The id of the widget
      * @param increment OPTIONAL The value to add or substract
      * 
      * @return true if done, false otherwise
      */
-    public Boolean incrementLongValue(String widgetId, Integer increment = 1) {
+	@Deprecated
+    public Boolean incrementLongValue(String widgetId, Long increment = 1) {
         def actualValue = pullLongValue(widgetId)
 
         if (actualValue) {
@@ -75,6 +74,22 @@ class DucksboardService {
             return false
         }
     }
+	
+	/**
+	 * Increment/Decrement the value of a widget with a new long value.
+	 * This method can be used to update the following widgets: counters, bars, boxes and pins
+	 * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
+	 *
+	 * @param widgetId The id of the widget
+	 * @param delta OPTIONAL The value to add or subtract
+	 *
+	 * @return true if done, false otherwise
+	 */
+	public Boolean pushLongDelta(String widgetId, Long delta = 1) {
+		def ducksboardPushAPI = new DucksboardPushAPI()
+		
+		return ducksboardPushAPI.pushLongDelta(widgetId, delta)
+	}
 
     /**
      * Update a timestamp widget like an absolute relative graph
