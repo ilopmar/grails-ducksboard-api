@@ -7,12 +7,10 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
 class ConnectionClient {
 
-    static transactional = false
-    
     /**
      * Create the REST Push Client with the url, user and password
-     * 
-     * @return the push client to use Ducksboard API  
+     *
+     * @return the push client to use Ducksboard API
      */
     public static RESTClient getPushClient() {
 
@@ -28,8 +26,8 @@ class ConnectionClient {
 
     /**
      * Create the REST Pull client with the url, user and password
-     * 
-     * @return the pull client to use Ducksboard API  
+     *
+     * @return the pull client to use Ducksboard API
      */
     public static RESTClient getPullClient() {
 
@@ -42,6 +40,6 @@ class ConnectionClient {
 
         return client
     }
-    
+
 
 }
