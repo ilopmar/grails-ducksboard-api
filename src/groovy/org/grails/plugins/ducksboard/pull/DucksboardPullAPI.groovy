@@ -6,14 +6,14 @@ import org.apache.log4j.Level
 import org.apache.log4j.Logger
 
 class DucksboardPullAPI {
-    
+
     def log = Logger.getLogger(getClass())
 
     /**
      * Get the last long value of the widget
-     * 
+     *
      * @param widgetId The id of the widget to get the value
-     * 
+     *
      * @return the last value of the widget or null if something was wrong
      */
     public Integer pullLongValue(String widgetId) {
@@ -24,15 +24,15 @@ class DucksboardPullAPI {
 
         def value = response.json.data[0].value
         return value
-        
+
     }
 
-    
+
     /**
-     * Create the PullClient and call to Ducksboard API with the closure passed as param  
-     * 
+     * Create the PullClient and call to Ducksboard API with the closure passed as param
+     *
      * @param cl The closure to execute
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     private withClient(Closure cl) {

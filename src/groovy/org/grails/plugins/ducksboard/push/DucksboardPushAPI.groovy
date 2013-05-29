@@ -6,15 +6,15 @@ import org.apache.log4j.Level
 import org.apache.log4j.Logger
 
 class DucksboardPushAPI {
-    
+
     def log = Logger.getLogger(getClass())
 
     /**
      * Push the new long value to the widget
-     * 
+     *
      * @param widgetId The id of the widget
      * @param value The new value
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     public boolean pushLongValue(String widgetId, Long value) {
@@ -24,29 +24,29 @@ class DucksboardPushAPI {
             }
         }
     }
-	
-	/**
-	 * Push the new long delta to the widget. This is used to update the value of the widget adding or subtracting an increment 
-	 *
-	 * @param widgetId The id of the widget
-	 * @param delta The value to add or subtract. It can be positive or negative
-	 *
-	 * @return true if done or false if something was wrong
-	 */
-	public boolean pushLongDelta(String widgetId, Long delta) {
-		withClient { client ->
-			def response = client.post(path:"/${widgetId}") {
-				json delta:delta
-			}
-		}
-	}
-    
+
+    /**
+     * Push the new long delta to the widget. This is used to update the value of the widget adding or subtracting an increment
+     *
+     * @param widgetId The id of the widget
+     * @param delta The value to add or subtract. It can be positive or negative
+     *
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushLongDelta(String widgetId, Long delta) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                json delta:delta
+            }
+        }
+    }
+
     /**
      * Push the new double value to the widget.
-     * 
+     *
      * @param widgetId The id of the widget
      * @param value The new value
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     public boolean pushDoubleValue(String widgetId, Double value) {
@@ -56,13 +56,13 @@ class DucksboardPushAPI {
             }
         }
     }
-    
+
     /**
      * Push timestamp values to the widget
-     * 
+     *
      * @param widgetId The widget id
      * @param json The json with the following format: [{"timestamp":1337724000, "value": 1}, {"timestamp":1337810400, "value": 5}]
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     public boolean pushTimestampValues(String widgetId, String json) {
@@ -72,14 +72,14 @@ class DucksboardPushAPI {
             }
         }
     }
-    
+
     /**
      * Push leaderboard values to the widget
-     * 
+     *
      * @param widgetId The widget id
-     * @param json The json with the following format: 
+     * @param json The json with the following format:
      *      {"value":{"board":[{"name":"Iván","values":[10,4]},{"name":"Pepe","values":[8,1]}]}}
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     public boolean pushLeaderboardValues(String widgetId, String json) {
@@ -89,12 +89,12 @@ class DucksboardPushAPI {
             }
         }
     }
-    
+
     /**
      * Push timeline value to the widget
-     * 
+     *
      * @param widgetId The widget id
-     * @param json The json with the following format: 
+     * @param json The json with the following format:
      *      {"timestamp":1312084128.67,
      *       "value":{
      *          "title":"The title",
@@ -102,7 +102,7 @@ class DucksboardPushAPI {
      *          "content":"This is the content of the entry"
      *        }
      *      }
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     public boolean pushTimelineValues(String widgetId, String json) {
@@ -112,10 +112,10 @@ class DucksboardPushAPI {
             }
         }
     }
-    
+
     /**
      * Push and image to the widget
-     * 
+     *
      * @param widgetId The widget id
      * @param json The json with the following format:
      *  {"timestamp":1342088037,
@@ -124,7 +124,7 @@ class DucksboardPushAPI {
      *      "caption":"The caption"
      *    }
      *  }
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     public boolean pushImage(String widgetId, String json) {
@@ -134,12 +134,32 @@ class DucksboardPushAPI {
             }
         }
     }
-    
+
     /**
-     * Create the PushClient and call to Ducksboard API with the closure passed as param  
-     * 
+     * Push a new status to a status widget
+     *
+     * @param widgetId The widget id
+     * @param json The json with the following format:
+     *      {
+     *         "timestamp":1312084128,
+     *         "value":1
+     *      }
+     *
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushStatus(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+
+    /**
+     * Create the PushClient and call to Ducksboard API with the closure passed as param
+     *
      * @param cl The closure to execute
-     * 
+     *
      * @return true if done or false if something was wrong
      */
     private withClient(Closure cl) {
