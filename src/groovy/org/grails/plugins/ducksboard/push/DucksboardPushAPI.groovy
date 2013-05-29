@@ -156,6 +156,28 @@ class DucksboardPushAPI {
     }
 
     /**
+     * Push a new text to a text widget
+     *
+     * @param widgetId The widget id
+     * @param json The json with the following format:
+     *     {
+     *         "timestamp": 1310649204,
+     *         "value": {
+     *             "content": "Text!\nLorem ipsum dolor sit amet..."
+     *          }
+     *     }
+     *
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushText(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+
+    /**
      * Create the PushClient and call to Ducksboard API with the closure passed as param
      *
      * @param cl The closure to execute

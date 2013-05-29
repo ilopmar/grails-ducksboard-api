@@ -35,6 +35,8 @@ Custom widgets
 
 ![Status](http://dev.ducksboard.com/apidoc/_images/status.png)
 
+![Text](http://dev.ducksboard.com/apidoc/_images/text.png)
+
 Configuration
 -------------
 
@@ -69,6 +71,7 @@ The following methods are implemented:
 * `incrementLongValue(String widgetId, Long increment = 1)`: This method is used to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. This method is deprecated. Please use `pushLongDelta`.
 * `pushLongDelta(String widgetId, Long delta = 1)`: This method is used to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. It uses the new ducksboard delta feature, so only one call is made to the server.
 * `pushStatus(String widgetId, StatusValues status)`: This method is used to change the status of a status widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#status.
+* `pushText(String widgetId, String text)`: This method is used to change the text of a text widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#texts.
 
 
 
@@ -83,7 +86,7 @@ Collaborations are appreciated :-)
 Change Log
 ----------
 
-* v0.3 - 29/May/2013 - Added new widgets: status
+* v0.3 - 29/May/2013 - Added new widgets: status, text.
 * v0.2.2 - 15/Aug/2012 - Added new method to support delta updates and deprecated the old method
 * v0.2.1 - 12/Jul/2012 - Minor changes
 * v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget and to push Images

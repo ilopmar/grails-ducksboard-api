@@ -206,4 +206,25 @@ class DucksboardService {
 
         return ducksboardPushAPI.pushStatus(widgetId, json)
     }
+
+    /**
+     * Push a new text to a text widget.
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#texts
+     *
+     * @param widgetId The id of the widget
+     * @param text The new text to send to the widget
+     *
+     * @return true if done, false otherwise
+     */
+    public Boolean pushText(String widgetId, String text) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        def map = [:]
+        map.timestamp = new Date().time/1000
+        map.value = [content:text]
+
+        def json = (map as JSON).toString()
+
+        return ducksboardPushAPI.pushText(widgetId, json)
+    }
 }
