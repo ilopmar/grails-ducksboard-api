@@ -7,6 +7,8 @@ import org.grails.plugins.ducksboard.push.StatusValues
 import groovy.time.TimeCategory
 import grails.converters.JSON
 
+import groovy.json.JsonBuilder
+
 class DucksboardService {
 
     static transactional = false
@@ -115,7 +117,8 @@ class DucksboardService {
      *
      * @param widgetId The id of the widget
      * @param list The list to update the widget. Every element of this list must be a map with the keys
-     *  "name" and "values", which contains a list of values
+     *  "name" and "values", which contains a list of values. Optionally you can include the "status" property
+     *  to use Status Leaderboards (http://dev.ducksboard.com/apidoc/slot-kinds/#status-leaderboards)
      *
      * @return true if done, false otherwise
      */
@@ -226,5 +229,29 @@ class DucksboardService {
         def json = (map as JSON).toString()
 
         return ducksboardPushAPI.pushText(widgetId, json)
+    }
+
+    /**
+     * Push new funnel values to a funnel widget
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#funnels
+     *
+     * @param widgetId The id of the widget
+     * @param names A list of string with the names of every step
+     * @param values A list of long with the values of every step
+     *
+     * @return true if done, false otherwise
+     */
+    public Boolean pushFunnel(String widgetId, List<String> names, List<Long> values) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        Integer idx = 0
+        def data = names.collect { [name:it, value:values[idx++]] }
+
+        def builder = new JsonBuilder()
+        builder.value {
+            funnel(data)
+        }
+
+        return ducksboardPushAPI.pushFunnels(widgetId, builder.toString())
     }
 }

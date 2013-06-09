@@ -178,6 +178,53 @@ class DucksboardPushAPI {
     }
 
     /**
+     * Push new funnel name and values
+     *
+     * @param widgetId The widget id
+     * @param json The json with the following format:
+     *
+     *  {
+     *    "value": {
+     *      "funnel": [
+     *        {
+     *          "name": "STEP 1",
+     *          "value": 1600
+     *        },
+     *        {
+     *          "name": "STEP 2",
+     *          "value": 1400
+     *        },
+     *        {
+     *          "name": "STEP 3",
+     *          "value": 1200
+     *        },
+     *        {
+     *          "name": "STEP 4",
+     *          "value": 900
+     *        },
+     *        {
+     *          "name": "STEP 5",
+     *          "value": 600
+     *        },
+     *        {
+     *          "name": "STEP 6",
+     *          "value": 330
+     *        }
+     *      ]
+     *    }
+     *  }
+     *
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushFunnels(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+
+    /**
      * Create the PushClient and call to Ducksboard API with the closure passed as param
      *
      * @param cl The closure to execute
