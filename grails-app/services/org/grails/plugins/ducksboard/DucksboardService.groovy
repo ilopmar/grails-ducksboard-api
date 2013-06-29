@@ -4,9 +4,6 @@ import org.grails.plugins.ducksboard.pull.DucksboardPullAPI
 import org.grails.plugins.ducksboard.push.DucksboardPushAPI
 import org.grails.plugins.ducksboard.push.StatusValues
 
-import groovy.time.TimeCategory
-import grails.converters.JSON
-
 import groovy.json.JsonBuilder
 
 class DucksboardService {
@@ -26,7 +23,12 @@ class DucksboardService {
     public Boolean pushLongValue(String widgetId, Long value) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        return ducksboardPushAPI.pushLongValue(widgetId, value)
+        def builder = new JsonBuilder()
+        builder {
+            delegate.value(value)
+        }
+
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -56,26 +58,12 @@ class DucksboardService {
     public Boolean pushDoubleValue(String widgetId, Double value) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        return ducksboardPushAPI.pushDoubleValue(widgetId, value)
-    }
-
-    /**
-     * This method is deprecated. Use the new method pushLongDelta method
-     *
-     * @param widgetId The id of the widget
-     * @param increment OPTIONAL The value to add or substract
-     *
-     * @return true if done, false otherwise
-     */
-    @Deprecated
-    public Boolean incrementLongValue(String widgetId, Long increment = 1) {
-        def actualValue = pullLongValue(widgetId)
-
-        if (actualValue) {
-            return pushLongValue(widgetId, actualValue + increment)
-        } else {
-            return false
+        def builder = new JsonBuilder()
+        builder {
+            delegate.value(value)
         }
+
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -91,7 +79,12 @@ class DucksboardService {
     public Boolean pushLongDelta(String widgetId, Long delta = 1) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        return ducksboardPushAPI.pushLongDelta(widgetId, delta)
+        def builder = new JsonBuilder()
+        builder {
+            delegate.delta(delta)
+        }
+
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -107,8 +100,8 @@ class DucksboardService {
     public Boolean pushTimestampValues(String widgetId, List list) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def json = (list as JSON).toString()
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        def builder = new JsonBuilder(list)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -125,11 +118,12 @@ class DucksboardService {
     public Boolean pushLeaderboardValues(String widgetId, List list) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def map = [:]
-        map.value = [board:list]
-        def json = (map as JSON).toString()
+        def builder = new JsonBuilder()
+        builder {
+            board(list)
+        }
 
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -145,8 +139,8 @@ class DucksboardService {
     public Boolean pushTimelineValues(String widgetId, Map map) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def json = (map as JSON).toString()
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        def builder = new JsonBuilder(map)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -165,8 +159,8 @@ class DucksboardService {
     public Boolean pushImage(String widgetId, Map map) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def json = (map as JSON).toString()
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        def builder = new JsonBuilder(map)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -181,12 +175,15 @@ class DucksboardService {
     public Boolean pushImage(String widgetId, File file) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def map = [:]
-        map.timestamp = new Date().time/1000
-        map.value = [source:"data:image/png;base64," + file.bytes.encodeAsBase64()]
+        def builder = new JsonBuilder()
+        builder {
+            timestamp(new Date().time/1000)
+            value {
+                source("data:image/png;base64," + file.bytes.encodeAsBase64())
+            }
+        }
 
-        def json = (map as JSON).toString()
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -201,13 +198,13 @@ class DucksboardService {
     public Boolean pushStatus(String widgetId, StatusValues status) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def map = [:]
-        map.timestamp = new Date().time/1000
-        map.value = status.value
+        def builder = new JsonBuilder()
+        builder {
+            timestamp(new Date().time/1000)
+            value(status.value)
+        }
 
-        def json = (map as JSON).toString()
-
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -222,13 +219,15 @@ class DucksboardService {
     public Boolean pushText(String widgetId, String text) {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
-        def map = [:]
-        map.timestamp = new Date().time/1000
-        map.value = [content:text]
+        def builder = new JsonBuilder()
+        builder {
+            timestamp(new Date().time/1000)
+            value {
+                content(text)
+            }
+        }
 
-        def json = (map as JSON).toString()
-
-        return ducksboardPushAPI.pushJson(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
