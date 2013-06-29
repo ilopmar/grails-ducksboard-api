@@ -33,6 +33,14 @@ Custom widgets
 
 ![Images](http://dev.ducksboard.com/apidoc/_images/image.png)
 
+![Status](http://dev.ducksboard.com/apidoc/_images/status.png)
+
+![Text](http://dev.ducksboard.com/apidoc/_images/text.png)
+
+![Funnels](http://dev.ducksboard.com/apidoc/_images/funnel.png)
+
+![Completion](http://dev.ducksboard.com/apidoc/_images/completion_gauge.png)
+
 Configuration
 -------------
 
@@ -65,8 +73,11 @@ The following methods are implemented:
 * `pushImage(String widgetId, Map map)`: This method is used to push an image to an image widget. The `map` param contains the following params `timeline` and `value` (with `source`, base64 encoded image, and `caption`). You can find a detailed explication at http://dev.ducksboard.com/apidoc/slot-kinds/#images
 * `pushImage(String widgetId, File file)`: This method is used to push an image to an image widget. The `file` param points to the image we want to push. With this method it is not possible to and the caption to the picture.
 * `incrementLongValue(String widgetId, Long increment = 1)`: This method is used to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. This method is deprecated. Please use `pushLongDelta`.
-* `pushLongDelta(String widgetId, Long delta = 1)`: This method is user to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. It uses the new ducksboard delta feature, so only one call is made to the server.
-  
+* `pushLongDelta(String widgetId, Long delta = 1)`: This method is used to increment (or decrease) the value of the following widgets: counters, bars, boxes and pins. It uses the new ducksboard delta feature, so only one call is made to the server.
+* `pushStatus(String widgetId, StatusValues status)`: This method is used to change the status of a status widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#status.
+* `pushText(String widgetId, String text)`: This method is used to change the text of a text widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#texts.
+* `pushFunnel(String widgetId, List<String> names, List<Long> values)`: This method is used to push new names and values to a funnel widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#funnels.
+* `pushCompletion(String widgetId, Long minimum, Long maximum, Long value)`: This method is used to push new values to a completion widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#completion.
 
 
 Author
@@ -78,9 +89,10 @@ Collaborations are appreciated :-)
 
 
 Change Log
-----------  
+----------
 
+* v0.3 - 29/Jun/2013 - Added new widgets: status, text, funnel and completion.
 * v0.2.2 - 15/Aug/2012 - Added new method to support delta updates and deprecated the old method
 * v0.2.1 - 12/Jul/2012 - Minor changes
-* v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget and to push Images 
+* v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget and to push Images
 * v0.1 - 16/Jun/2012 - First version
