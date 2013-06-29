@@ -1,6 +1,6 @@
 class DucksboardApiGrailsPlugin {
     // the plugin version
-    def version = "0.2.2"
+    def version = "0.3.0"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
@@ -23,16 +23,16 @@ The Ducksboard API plugin provides integration with the ducksboard.com pull and 
 '''
     // URL to the plugin's documentation
     def documentation = "https://github.com/lmivan/grails-ducksboard-api/blob/master/README.md"
-    
+
     // License: one of 'APACHE', 'GPL2', 'GPL3'
     def license = "APACHE"
-    
+
     // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/lmivan/grails-ducksboard-api" ]
-    
+
 
     def doWithWebDescriptor = { xml ->
-        // TODO Implement additions to web.xml (optional), this event occurs before 
+        // TODO Implement additions to web.xml (optional), this event occurs before
     }
 
     def doWithSpring = {
