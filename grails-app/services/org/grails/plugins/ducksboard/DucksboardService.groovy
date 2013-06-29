@@ -108,7 +108,7 @@ class DucksboardService {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
         def json = (list as JSON).toString()
-        return ducksboardPushAPI.pushTimestampValues(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -129,7 +129,7 @@ class DucksboardService {
         map.value = [board:list]
         def json = (map as JSON).toString()
 
-        return ducksboardPushAPI.pushLeaderboardValues(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -146,7 +146,7 @@ class DucksboardService {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
         def json = (map as JSON).toString()
-        return ducksboardPushAPI.pushTimelineValues(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -166,7 +166,7 @@ class DucksboardService {
         def ducksboardPushAPI = new DucksboardPushAPI()
 
         def json = (map as JSON).toString()
-        return ducksboardPushAPI.pushImage(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -186,7 +186,7 @@ class DucksboardService {
         map.value = [source:"data:image/png;base64," + file.bytes.encodeAsBase64()]
 
         def json = (map as JSON).toString()
-        return ducksboardPushAPI.pushImage(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -207,7 +207,7 @@ class DucksboardService {
 
         def json = (map as JSON).toString()
 
-        return ducksboardPushAPI.pushStatus(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -228,7 +228,7 @@ class DucksboardService {
 
         def json = (map as JSON).toString()
 
-        return ducksboardPushAPI.pushText(widgetId, json)
+        return ducksboardPushAPI.pushJson(widgetId, json)
     }
 
     /**
@@ -252,7 +252,7 @@ class DucksboardService {
             funnel(data)
         }
 
-        return ducksboardPushAPI.pushFunnels(widgetId, builder.toString())
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
 
@@ -276,6 +276,6 @@ class DucksboardService {
             current(value)
         }
 
-        return ducksboardPushAPI.pushCompletion(widgetId, builder.toString())
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 }
