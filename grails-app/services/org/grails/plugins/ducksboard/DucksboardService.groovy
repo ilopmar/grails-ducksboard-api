@@ -254,4 +254,28 @@ class DucksboardService {
 
         return ducksboardPushAPI.pushFunnels(widgetId, builder.toString())
     }
+
+
+    /**
+     * Push values to a completion widget
+     *
+     * @param widgetId The id of the widget
+     * @param minimum The minimum value
+     * @param maxium The maximum value
+     * @param value The current value
+     *
+     * @return true if done, false otherwise
+     */
+    public Boolean pushCompletion(String widgetId, Long minimum, Long maximum, Long value) {
+        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        def builder = new JsonBuilder()
+        builder.value {
+            min(minimum)
+            max(maximum)
+            current(value)
+        }
+
+        return ducksboardPushAPI.pushCompletion(widgetId, builder.toString())
+    }
 }

@@ -39,6 +39,8 @@ Custom widgets
 
 ![Funnels](http://dev.ducksboard.com/apidoc/_images/funnel.png)
 
+![Completion](http://dev.ducksboard.com/apidoc/_images/completion_gauge.png)
+
 Configuration
 -------------
 
@@ -75,7 +77,7 @@ The following methods are implemented:
 * `pushStatus(String widgetId, StatusValues status)`: This method is used to change the status of a status widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#status.
 * `pushText(String widgetId, String text)`: This method is used to change the text of a text widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#texts.
 * `pushFunnel(String widgetId, List<String> names, List<Long> values)`: This method is used to push new names and values to a funnel widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#funnels.
-
+* `pushCompletion(String widgetId, Long minimum, Long maximum, Long value)`: This method is used to push new values to a completion widget. You can find more information about this widget at: http://dev.ducksboard.com/apidoc/slot-kinds/#completion.
 
 
 Author
@@ -89,7 +91,7 @@ Collaborations are appreciated :-)
 Change Log
 ----------
 
-* v0.3 - XX/XXX/2013 - Added new widgets: status, text, funnel
+* v0.3 - 29/Jun/2013 - Added new widgets: status, text, funnel and completion.
 * v0.2.2 - 15/Aug/2012 - Added new method to support delta updates and deprecated the old method
 * v0.2.1 - 12/Jul/2012 - Minor changes
 * v0.2 - 12/Jul/2012 - Changed Integer values to Long. Added methods to push values to a Leaderboard and a Timeline widget and to push Images

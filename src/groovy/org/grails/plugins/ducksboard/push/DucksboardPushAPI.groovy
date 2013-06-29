@@ -225,6 +225,30 @@ class DucksboardPushAPI {
     }
 
     /**
+     * Push new values to a completion widget
+     *
+     * @param widgetId The widget id
+     * @param json The json with the following format:
+     *
+     *  {
+     *      "value": {
+     *          "current": 19790,
+     *          "min": 0,
+     *          "max": 25000
+     *      }
+     *  }
+     *
+     * @return true if done or false if something was wrong
+     */
+    public boolean pushCompletion(String widgetId, String json) {
+        withClient { client ->
+            def response = client.post(path:"/${widgetId}") {
+                text json
+            }
+        }
+    }
+
+    /**
      * Create the PushClient and call to Ducksboard API with the closure passed as param
      *
      * @param cl The closure to execute
