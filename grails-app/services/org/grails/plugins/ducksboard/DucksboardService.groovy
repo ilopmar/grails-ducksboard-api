@@ -3,12 +3,15 @@ package org.grails.plugins.ducksboard
 import org.grails.plugins.ducksboard.pull.DucksboardPullAPI
 import org.grails.plugins.ducksboard.push.DucksboardPushAPI
 import org.grails.plugins.ducksboard.push.StatusValues
+import org.grails.plugins.ducksboard.push.LeaderboardStatusValues
 
 import groovy.json.JsonBuilder
 
 class DucksboardService {
-
     static transactional = false
+
+    DucksboardPullAPI ducksboardPullAPI = new DucksboardPullAPI()
+    DucksboardPushAPI ducksboardPushAPI = new DucksboardPushAPI()
 
     /**
      * Get the last long value of a widget.
@@ -20,8 +23,6 @@ class DucksboardService {
      * @return the value of the widget
      */
     public Integer pullLongValue(String widgetId) {
-        def ducksboardPullAPI = new DucksboardPullAPI()
-
         return ducksboardPullAPI.pullLongValue(widgetId)
     }
 
@@ -44,8 +45,6 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushLongValue(String widgetId, Long value) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.value(value)
@@ -68,8 +67,6 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushDoubleValue(String widgetId, Double value) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.value(value)
@@ -97,8 +94,6 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushLongDelta(String widgetId, Long delta = 1) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.delta(delta)
@@ -134,7 +129,10 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushTimestampValues(String widgetId, List<Long> timestamps, List<Long> values) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        if (timestamps?.size() != values?.size()) {
+            return false
+        }
 
         Integer idx = 0
         def data = timestamps.collect { [timestamp:it, value:values[idx++]] }
@@ -177,21 +175,76 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushLeaderboardValues(String widgetId, List<String> names, List values) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        if (names?.size() != values?.size()) {
+            return false
+        }
 
         Integer idx = 0
         def data = names.collect { [name:it, values:values[idx++]] }
 
         def builder = new JsonBuilder()
-        builder {
+        builder.value {
             board(data)
         }
 
         return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
-    public Boolean pushStatusLeaderboardValues(String widgetId, List<String> names, List values) {
-        //http://dev.ducksboard.com/apidoc/slot-kinds/#status-leaderboards
+
+    /**
+     * Update a leaderboard status widget with new values.
+     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/#status-leaderboards
+     *
+     * @param widgetId The id of the widget
+     * @param names The list of the names
+     * @param values The list of values
+     * @param status The list of status
+     *
+     * {
+     *     "value": {
+     *         "board": [
+     *             {
+     *                 "name": "Cleveland",
+     *                 "values": [1928, "96%"],
+     *                 "status": "green"
+     *             },
+     *             {
+     *                 "name": "New York",
+     *                 "values": [1232, "84%"],
+     *                 "status": "yellow"
+     *             },
+     *             {
+     *                 "name": "Boulder",
+     *                 "values": ["--", "--"],
+     *                 "status": "gray"
+     *             },
+     *             {
+     *                 "name": "Newport",
+     *                 "values": [2740, "60%"],
+     *                 "status": "red"
+     *             }
+     *         ]
+     *     }
+     * }
+     *
+     * @return true if done, false otherwise
+     */
+    public Boolean pushStatusLeaderboardValues(String widgetId, List<String> names, List values, List<LeaderboardStatusValues> status) {
+
+        if (names?.size() != values?.size() || values?.size() != status?.size()) {
+            return false
+        }
+
+        Integer idx = 0
+        def data = names.collect { [name:it, values:values[idx], status:status[idx++].value] }
+
+        def builder = new JsonBuilder()
+        builder.value {
+            board(data)
+        }
+
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -216,8 +269,6 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushTimelineValues(String widgetId, String title, String content, String imageUrl, Long timestamp = new Date().time/1000) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.timestamp(timestamp)
@@ -251,13 +302,11 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushImage(String widgetId, File file, String caption = "", Long timestamp = new Date().time/1000) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.timestamp(timestamp)
             value {
-                source("data:image/png;base64," + file.bytes.encodeAsBase64())
+                source("data:image/png;base64," + file.bytes.encodeBase64())
                 delegate.caption(caption)
             }
         }
@@ -281,8 +330,6 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushStatus(String widgetId, StatusValues status, Long timestamp = new Date().time/1000) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.timestamp(timestamp)
@@ -310,8 +357,6 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushText(String widgetId, String text, Long timestamp = new Date().time/1000) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.timestamp(timestamp)
@@ -365,7 +410,10 @@ class DucksboardService {
      * @return true if done, false otherwise
      */
     public Boolean pushFunnel(String widgetId, List<String> names, List<Long> values) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        if (names?.size() != values?.size()) {
+            return false
+        }
 
         Integer idx = 0
         def data = names.collect { [name:it, value:values[idx++]] }
@@ -390,17 +438,15 @@ class DucksboardService {
      *
      * {
      *     "value": {
-     *         "current": 19790,
      *         "min": 0,
      *         "max": 25000
+     *         "current": 19790,
      *     }
      * }
      *
      * @return true if done, false otherwise
      */
     public Boolean pushCompletion(String widgetId, Long minimum, Long maximum, Long value) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder.value {
             min(minimum)
