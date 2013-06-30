@@ -3,33 +3,15 @@ package org.grails.plugins.ducksboard
 import org.grails.plugins.ducksboard.pull.DucksboardPullAPI
 import org.grails.plugins.ducksboard.push.DucksboardPushAPI
 import org.grails.plugins.ducksboard.push.StatusValues
+import org.grails.plugins.ducksboard.push.LeaderboardStatusValues
 
 import groovy.json.JsonBuilder
 
 class DucksboardService {
-
     static transactional = false
 
-    /**
-     * Update the widget with the new long value.
-     * This method can be used to update the following widgets: counters, bars, boxes and pins
-     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
-     *
-     * @param widgetId The id of the widget
-     * @param value The new value
-     *
-     * @return true if done, false otherwise
-     */
-    public Boolean pushLongValue(String widgetId, Long value) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
-        def builder = new JsonBuilder()
-        builder {
-            delegate.value(value)
-        }
-
-        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
-    }
+    DucksboardPullAPI ducksboardPullAPI = new DucksboardPullAPI()
+    DucksboardPushAPI ducksboardPushAPI = new DucksboardPushAPI()
 
     /**
      * Get the last long value of a widget.
@@ -41,9 +23,34 @@ class DucksboardService {
      * @return the value of the widget
      */
     public Integer pullLongValue(String widgetId) {
-        def ducksboardPullAPI = new DucksboardPullAPI()
-
         return ducksboardPullAPI.pullLongValue(widgetId)
+    }
+
+    /**
+     * Update the widget with the new long value.
+     * This method can be used to update the following widgets: counters, bars, boxes and pins
+     * More information at:
+     * - http://dev.ducksboard.com/apidoc/slot-kinds/#counters
+     * - http://dev.ducksboard.com/apidoc/slot-kinds/#bars
+     * - http://dev.ducksboard.com/apidoc/slot-kinds/#boxes
+     * . http://dev.ducksboard.com/apidoc/slot-kinds/#pins
+     *
+     * @param widgetId The id of the widget
+     * @param value The new value
+     *
+     * {
+     *     "value": 783
+     * }
+     *
+     * @return true if done, false otherwise
+     */
+    public Boolean pushLongValue(String widgetId, Long value) {
+        def builder = new JsonBuilder()
+        builder {
+            delegate.value(value)
+        }
+
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
@@ -53,11 +60,13 @@ class DucksboardService {
      * @param widgetId The widget id
      * @param value The new value
      *
+     * {
+     *     "value": 0.93
+     * }
+     *
      * @return true if done, false otherwise
      */
     public Boolean pushDoubleValue(String widgetId, Double value) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.value(value)
@@ -69,16 +78,22 @@ class DucksboardService {
     /**
      * Increment/Decrement the value of a widget with a new long value.
      * This method can be used to update the following widgets: counters, bars, boxes and pins
-     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/
+     * More information at:
+     * - http://dev.ducksboard.com/apidoc/slot-kinds/#counters
+     * - http://dev.ducksboard.com/apidoc/slot-kinds/#bars
+     * - http://dev.ducksboard.com/apidoc/slot-kinds/#boxes
+     * . http://dev.ducksboard.com/apidoc/slot-kinds/#pins
      *
      * @param widgetId The id of the widget
      * @param delta OPTIONAL The value to add or subtract
      *
+     * {
+     *     "delta": 5
+     * }
+     *
      * @return true if done, false otherwise
      */
     public Boolean pushLongDelta(String widgetId, Long delta = 1) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder {
             delegate.delta(delta)
@@ -89,38 +104,144 @@ class DucksboardService {
 
     /**
      * Update a timestamp widget like an absolute relative graph
-     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs
+     * More information at:
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-graphs
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#absolute-area-graphs
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#stacked-graphs
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#relative-graphs
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#relative-area-graphs
      *
      * @param widgetId The id of the widget
-     * @param list The list to update the widget. Every element of this list must be a map with the keys
-     *  "timestamp" and "value"
+     * @param timestamps The list of timestamps
+     * @param values The list of the values
+     *
+     * [
+     *     {
+     *         "timestamp": 1337724000,
+     *         "value": 1
+     *     },
+     *     {
+     *         "timestamp": 1337810400,
+     *         "value": 5
+     *     }
+     * ]
      *
      * @return true if done, false otherwise
      */
-    public Boolean pushTimestampValues(String widgetId, List list) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+    public Boolean pushTimestampValues(String widgetId, List<Long> timestamps, List<Long> values) {
 
-        def builder = new JsonBuilder(list)
+        if (timestamps?.size() != values?.size()) {
+            return false
+        }
+
+        Integer idx = 0
+        def data = timestamps.collect { [timestamp:it, value:values[idx++]] }
+
+        def builder = new JsonBuilder(data)
+
         return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
     /**
-     * Update a leaderboard widget with the new ranking
-     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards
+     * Update a board widget with the new values. This method can be used to update leaderboards
+     * and and trend leaderboards.
+     * More information at:
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#leaderboards
+     *  - http://dev.ducksboard.com/apidoc/slot-kinds/#trend-leaderboards
      *
      * @param widgetId The id of the widget
-     * @param list The list to update the widget. Every element of this list must be a map with the keys
-     *  "name" and "values", which contains a list of values. Optionally you can include the "status" property
-     *  to use Status Leaderboards (http://dev.ducksboard.com/apidoc/slot-kinds/#status-leaderboards)
+     * @param names The list of the names
+     * @param values The list of the values
+     *
+     * {
+     *     "value": {
+     *         "board": [
+     *             {
+     *                 "name": "Abdul-Jabbar",
+     *                 "values": [38387, 1560, 24.6]
+     *             },
+     *             {
+     *                 "name": "Karl Malone",
+     *                 "values": [36928, 1476, 25]
+     *             },
+     *             {
+     *                 "name": "Michael Jordan",
+     *                 "values": [32292, 1072, 30.1]
+     *             }
+     *         ]
+     *     }
+     * }
      *
      * @return true if done, false otherwise
      */
-    public Boolean pushLeaderboardValues(String widgetId, List list) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+    public Boolean pushLeaderboardValues(String widgetId, List<String> names, List values) {
+
+        if (names?.size() != values?.size()) {
+            return false
+        }
+
+        Integer idx = 0
+        def data = names.collect { [name:it, values:values[idx++]] }
 
         def builder = new JsonBuilder()
-        builder {
-            board(list)
+        builder.value {
+            board(data)
+        }
+
+        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
+    }
+
+
+    /**
+     * Update a leaderboard status widget with new values.
+     * More info at: http://dev.ducksboard.com/apidoc/slot-kinds/#status-leaderboards
+     *
+     * @param widgetId The id of the widget
+     * @param names The list of the names
+     * @param values The list of values
+     * @param status The list of status
+     *
+     * {
+     *     "value": {
+     *         "board": [
+     *             {
+     *                 "name": "Cleveland",
+     *                 "values": [1928, "96%"],
+     *                 "status": "green"
+     *             },
+     *             {
+     *                 "name": "New York",
+     *                 "values": [1232, "84%"],
+     *                 "status": "yellow"
+     *             },
+     *             {
+     *                 "name": "Boulder",
+     *                 "values": ["--", "--"],
+     *                 "status": "gray"
+     *             },
+     *             {
+     *                 "name": "Newport",
+     *                 "values": [2740, "60%"],
+     *                 "status": "red"
+     *             }
+     *         ]
+     *     }
+     * }
+     *
+     * @return true if done, false otherwise
+     */
+    public Boolean pushStatusLeaderboardValues(String widgetId, List<String> names, List values, List<LeaderboardStatusValues> status) {
+
+        if (names?.size() != values?.size() || values?.size() != status?.size()) {
+            return false
+        }
+
+        Integer idx = 0
+        def data = names.collect { [name:it, values:values[idx], status:status[idx++].value] }
+
+        def builder = new JsonBuilder()
+        builder.value {
+            board(data)
         }
 
         return ducksboardPushAPI.pushJson(widgetId, builder.toString())
@@ -131,35 +252,33 @@ class DucksboardService {
      * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#timelines
      *
      * @param widgetId The id of the widget
-     * @param map The map to update the widget. The map must contain the keys "timestamp" and "value". The "value"
-     *  must be another map with the "title", "image" and "content" keys. Optionally the key "link" can be included
+     * @param title The title of the entry
+     * @param content The content of the entry
+     * @param imageUrl The url of the image
+     * @param timestamp The timestamp in seconds of the request (optional)
+     *
+     * {
+     *     "timestamp": 1310649204,
+     *     "value": {
+     *         "title": "error message",
+     *         "image": "https://app.ducksboard.com/static/img/timeline/red.gif",
+     *         "content": "Some details about my error message"
+     *     }
+     * }
      *
      * @return true if done, false otherwise
      */
-    public Boolean pushTimelineValues(String widgetId, Map map) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+    public Boolean pushTimelineValues(String widgetId, String title, String content, String imageUrl, Long timestamp = new Date().time/1000) {
+        def builder = new JsonBuilder()
+        builder {
+            delegate.timestamp(timestamp)
+            value {
+                delegate.title(title)
+                image(imageUrl)
+                delegate.content(content)
+            }
+        }
 
-        def builder = new JsonBuilder(map)
-        return ducksboardPushAPI.pushJson(widgetId, builder.toString())
-    }
-
-    /**
-     * Push a new image to an image widget.
-     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#images
-     *
-     * @param widgetId The id of the widget
-     * @param map The map to update the widget. The map must contain the keys "timestamp" and "value". The "value"
-     *  must be another map with the "source" and "caption" keys.
-     *  The "source" must start with "data:image/png;base64," followed with the Base64 encoded image. You can convert an image with:
-     *    def f = new File('/path/to/image.png')
-     *    f.bytes.encodeAsBase64()
-     *
-     * @return true if done, false otherwise
-     */
-    public Boolean pushImage(String widgetId, Map map) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
-        def builder = new JsonBuilder(map)
         return ducksboardPushAPI.pushJson(widgetId, builder.toString())
     }
 
@@ -169,17 +288,26 @@ class DucksboardService {
      *
      * @param widgetId The id of the widget
      * @param file The file object pointing to the image
+     * @param caption The caption of the image (optional)
+     * @param timestamp The timestamp in seconds of the request (optional)
+     *
+     *  {
+     *      "timestamp": 1310649204,
+     *      "value": {
+     *          "source": "data:image/png;base64,iVB...==",
+     *          "caption": "Ducksboard logo!"
+     *      }
+     *  }
      *
      * @return true if done, false otherwise
      */
-    public Boolean pushImage(String widgetId, File file) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
+    public Boolean pushImage(String widgetId, File file, String caption = "", Long timestamp = new Date().time/1000) {
         def builder = new JsonBuilder()
         builder {
-            timestamp(new Date().time/1000)
+            delegate.timestamp(timestamp)
             value {
-                source("data:image/png;base64," + file.bytes.encodeAsBase64())
+                source("data:image/png;base64," + file.bytes.encodeBase64())
+                delegate.caption(caption)
             }
         }
 
@@ -192,15 +320,19 @@ class DucksboardService {
      *
      * @param widgetId The id of the widget
      * @param status The new status of the widget
+     * @param timestamp The timestamp in seconds of the request (optional)
+     *
+     *{
+     *    "timestamp": 1310649204,
+     *    "value": 0
+     *}
      *
      * @return true if done, false otherwise
      */
-    public Boolean pushStatus(String widgetId, StatusValues status) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
+    public Boolean pushStatus(String widgetId, StatusValues status, Long timestamp = new Date().time/1000) {
         def builder = new JsonBuilder()
         builder {
-            timestamp(new Date().time/1000)
+            delegate.timestamp(timestamp)
             value(status.value)
         }
 
@@ -213,15 +345,21 @@ class DucksboardService {
      *
      * @param widgetId The id of the widget
      * @param text The new text to send to the widget
+     * @param timestamp The timestamp in seconds of the request (optional)
+     *
+     * {
+     *     "timestamp": 1310649204,
+     *     "value": {
+     *         "content": "Text!\nLorem ipsum dolor sit amet..."
+     *     }
+     * }
      *
      * @return true if done, false otherwise
      */
-    public Boolean pushText(String widgetId, String text) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
+    public Boolean pushText(String widgetId, String text, Long timestamp = new Date().time/1000) {
         def builder = new JsonBuilder()
         builder {
-            timestamp(new Date().time/1000)
+            delegate.timestamp(timestamp)
             value {
                 content(text)
             }
@@ -238,10 +376,44 @@ class DucksboardService {
      * @param names A list of string with the names of every step
      * @param values A list of long with the values of every step
      *
+     * {
+     *     "value": {
+     *         "funnel": [
+     *             {
+     *                 "name": "STEP 1",
+     *                 "value": 1600
+     *             },
+     *             {
+     *                 "name": "STEP 2",
+     *                 "value": 1400
+     *             },
+     *             {
+     *                 "name": "STEP 3",
+     *                 "value": 1200
+     *             },
+     *             {
+     *                 "name": "STEP 4",
+     *                 "value": 900
+     *             },
+     *             {
+     *                 "name": "STEP 5",
+     *                 "value": 600
+     *             },
+     *             {
+     *                 "name": "STEP 6",
+     *                 "value": 330
+     *             }
+     *         ]
+     *     }
+     * }
+     *
      * @return true if done, false otherwise
      */
     public Boolean pushFunnel(String widgetId, List<String> names, List<Long> values) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
+
+        if (names?.size() != values?.size()) {
+            return false
+        }
 
         Integer idx = 0
         def data = names.collect { [name:it, value:values[idx++]] }
@@ -257,17 +429,24 @@ class DucksboardService {
 
     /**
      * Push values to a completion widget
+     * More information at: http://dev.ducksboard.com/apidoc/slot-kinds/#completion
      *
      * @param widgetId The id of the widget
      * @param minimum The minimum value
      * @param maxium The maximum value
      * @param value The current value
      *
+     * {
+     *     "value": {
+     *         "min": 0,
+     *         "max": 25000
+     *         "current": 19790,
+     *     }
+     * }
+     *
      * @return true if done, false otherwise
      */
     public Boolean pushCompletion(String widgetId, Long minimum, Long maximum, Long value) {
-        def ducksboardPushAPI = new DucksboardPushAPI()
-
         def builder = new JsonBuilder()
         builder.value {
             min(minimum)

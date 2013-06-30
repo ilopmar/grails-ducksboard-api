@@ -28,10 +28,21 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
         // runtime 'mysql:mysql-connector-java:5.1.13'
-        
+
         runtime 'com.github.groovy-wslite:groovy-wslite:0.7.0'
         runtime 'log4j:log4j:1.2.16'
+    }
+    plugins {
+        build ':release:2.2.1', ':rest-client-builder:1.0.3', {
+            export = false
+        }
+
+        test ":spock:0.7", {
+            export = false
+        }
+        test ":code-coverage:1.2.6", {
+            export = false
+        }
     }
 }
