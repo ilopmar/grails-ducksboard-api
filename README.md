@@ -11,6 +11,10 @@ For the moment, the methods implemented are only for the custom widgets. You can
 
 There is a sample project with examples of all the widgets at [https://github.com/lmivan/grails-ducksboard-api-demo](https://github.com/lmivan/grails-ducksboard-api-demo). This sample project includes a [public dashboard](https://public.ducksboard.com/UcD_CtknoMaEDbIJo8Eo/) and an online grails project to interact with the dashboard.
 
+## Warning
+
+In version 0.4 most of the public methods have changed its signature to support all different options for custom widgets, so checkout before update to this version.
+
 
 ## Configuration
 
