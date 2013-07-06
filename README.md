@@ -282,8 +282,8 @@ Collaborations are appreciated :-)
 Change Log
 ----------
 
-* v0.4 - XX/XXX/2013 - Change the signature of the methods to support all custom widgets params and add spock tests.
-* v0.3 - XX/XXX/2013 - Add new widgets: status, text, funnel and completion.
+* v0.4 - 06/Jul/2013 - Change the signature of the methods to support all custom widgets params and add spock tests.
+* v0.3 - 06/Jul/2013 - Add new widgets: status, text, funnel and completion.
 * v0.2.2 - 15/Aug/2012 - Add new method to support delta updates and deprecated the old method.
 * v0.2.1 - 12/Jul/2012 - Minor changes.
 * v0.2 - 12/Jul/2012 - Change Integer values to Long. Add methods to push values to a Leaderboard and a Timeline widget and to push Images.
