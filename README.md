@@ -1,4 +1,4 @@
-grails-ducksboard-api
+Grails Ducksboard API
 =====================
 
 This plugin allows to use the push/pull [Ducksboard.com](http://www.ducksboard.com) API easily in your grails application.
