@@ -1,6 +1,8 @@
 Grails Ducksboard API
 =====================
 
+![Still maintained](http://stillmaintained.com/lmivan/grails-ducksboard-api.png "http://stillmaintained.com/lmivan/grails-ducksboard-api")
+
 This plugin allows to use the push/pull [Ducksboard.com](http://www.ducksboard.com) API easily in your grails application.
 
 Ducksboard is an online dashboard to display all your metrics in real time. It supports a lot of services like Twitter, Google Analitycs, Feedburner, MailChimp, Zendesk,...
