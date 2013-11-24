@@ -1,7 +1,7 @@
 Grails Ducksboard API
 =====================
 
-![Still maintained](http://stillmaintained.com/lmivan/grails-ducksboard-api.png "http://stillmaintained.com/lmivan/grails-ducksboard-api")
+[![Still maintained](http://stillmaintained.com/lmivan/grails-ducksboard-api.png)](http://stillmaintained.com/lmivan/grails-ducksboard-api)
 
 This plugin allows to use the push/pull [Ducksboard.com](http://www.ducksboard.com) API easily in your grails application.
 
