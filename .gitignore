@@ -11,3 +11,7 @@ target
 /web-app/plugins
 /web-app/WEB-INF/classes
 *.zip
+plugin.xml
+web-app
+target-eclipse
+*.ser
