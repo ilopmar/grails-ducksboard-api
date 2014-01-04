@@ -3,6 +3,7 @@ Grails Ducksboard API
 
 [![Build Status](https://drone.io/github.com/lmivan/grails-ducksboard-api/status.png)](https://drone.io/github.com/lmivan/grails-ducksboard-api/latest)
 [![Still maintained](http://stillmaintained.com/lmivan/grails-ducksboard-api.png)](http://stillmaintained.com/lmivan/grails-ducksboard-api)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/lmivan/grails-ducksboard-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 This plugin allows to use the push/pull [Ducksboard.com](http://www.ducksboard.com) API easily in your grails application.
 
